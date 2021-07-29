@@ -13,7 +13,7 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,59 +25,53 @@ import java.util.List;
 public class NewsActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    private static final String LOG_TAG = NewsActivity.class.getName();
+
 
     private static final String QUERY_PARAM = "q";
     private static final String ORDER_BY_PARAM = "order-by";
     private static final String PAGE_SIZE_PARAM = "page-size";
-    private static final String ORDER_DATE_PARAM = "order-date";
-    private static final String FROM_DATE_PARAM = "from-date";
-    private static final String SHOW_FIELDS_PARAM = "show-fields";
     private static final String FORMAT_PARAM = "format";
-    private static final String SHOW_TAGS_PARAM = "show-tags";
+
     private static final String API_KEY_PARAM = "api-key";
-    private static final String SECTION_PARAM = "section";
-    public static final String SHOW_FIELDS = "trailText";
-    /**
+
+    /*
      * The format we want our API to return
      */
     public static final String FORMAT = "json";
-    /**
+    /*
      * The show tags we want our API to return
      */
-    public static final String SHOW_TAGS = "contributor";
-    /**
+
+    /*
      * API Key
      */
     public static final String API_KEY = "test";
-    /**
+    /*
      * Default number to set the image on the top of the textView
      */
-    public static final int DEFAULT_NUMBER = 0;
-    /**
+
+    /*
      * HTTP request parameters
      */
-    static final int READ_TIMEOUT = 10000; /* milliseconds */
-    static final int CONNECT_TIMEOUT = 15000; /* milliseconds */
-    static final int SUCCESS_RESPONSE_CODE = 200;
-    static final String REQUEST_METHOD_GET = "GET";
-    /**
+
+
+
+    /*
      * Extract the key associated with the JSONObject
      */
-    static final String JSON_KEY_RESPONSE = "response";
-    static final String JSON_KEY_RESULTS = "results";
-    static final String JSON_KEY_WEB_TITLE = "webTitle";
-    static final String JSON_KEY_AUTHOR = "webTitle";
-    static final String JSON_KEY_SECTION_NAME = "sectionName";
-    static final String JSON_KEY_WEB_PUBLICATION_DATE = "webPublicationDate";
-    static final String JSON_KEY_WEB_URL = "webUrl";
-    static final String JSON_KEY_TAGS = "tags";
-    static final String JSON_KEY_FIELDS = "fields";
+
+
+
+
+
+
+
+
 
 
 
     /**
-     * URL for earthquake data from the USGS dataset
+     * URL for earthquake data from the Guardian dataset
      */
     private static final String GUARDIAN_REQUEST_URL =
             "https://content.guardianapis.com/search";
@@ -104,13 +98,13 @@ public class NewsActivity extends AppCompatActivity
         setContentView(R.layout.news_activity);
 
         // Find a reference to the {@link ListView} in the layout
-        ListView newsListView = (ListView) findViewById(R.id.list);
+        ListView newsListView =  findViewById(R.id.list);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mEmptyStateTextView =  findViewById(R.id.empty_view);
         newsListView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of earthquakes as input
-        mAdapter = new NewsAdapter(this, new ArrayList<News>());
+        mAdapter = new NewsAdapter(this, new ArrayList<>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
@@ -118,21 +112,18 @@ public class NewsActivity extends AppCompatActivity
 
         // Set an item click listener on the ListView, which sends an intent to a web browser
         // to open a website with more information about the selected earthquake.
-        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current earthquake that was clicked on
-                News currentEarthquake = mAdapter.getItem(position);
+        newsListView.setOnItemClickListener((adapterView, view, position, l) -> {
+            // Find the current earthquake that was clicked on
+            News currentEarthquake = mAdapter.getItem(position);
 
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
+            // Convert the String URL into a URI object (to pass into the Intent constructor)
+            Uri earthquakeUri = Uri.parse(currentEarthquake.getUrl());
 
-                // Create a new intent to view the earthquake URI
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
+            // Create a new intent to view the earthquake URI
+            Intent websiteIntent = new Intent(Intent.ACTION_VIEW, earthquakeUri);
 
-                // Send the intent to launch a new activity
-                startActivity(websiteIntent);
-            }
+            // Send the intent to launch a new activity
+            startActivity(websiteIntent);
         });
 
         // Get a reference to the ConnectivityManager to check state of network connectivity

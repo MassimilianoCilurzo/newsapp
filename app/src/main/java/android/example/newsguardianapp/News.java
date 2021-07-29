@@ -1,27 +1,27 @@
 package android.example.newsguardianapp;
 
 public class News {
-    /**
+    /*
      * Web title of the news
      */
-    private String mWebTitle;
+    private  String mWebTitle;
 
-    /**
+    /*
      * Section name of the news
      */
-    private String mSectionName;
+    private  String mSectionName;
 
-    /**
+    /*
      * Publication date of the news
      */
     private String mPublicationDate;
 
-    /**
+    /*
      * Website URL of the news
      */
-    private String mUrl;
+    private  String mUrl;
 
-    /**
+    /*
      * Create a News object.
      *
      * @param webTitle        is the web title of the news
